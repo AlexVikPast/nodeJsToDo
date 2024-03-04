@@ -1,16 +1,39 @@
 <%- include('includes/header.ejs') %>
-        <h1>Запланированные дела</h1>
-        <% for (let t of todos) { %>
-        <article class="card">
-            <header>
-                <h2><a href="/<%= t._id %>/"><%= t.title %></a></h2>
-            </header>
-            <footer>
-                <% if (t.desc) { %>
-                <p><%= t.desc %></p>
-                <% } %>
-                <p><%= (new Date(t.createdAt)).toLocaleString() %></p>
-            </footer>
-        </article>
-        <% } %>
+  <form method="get" style="text-align: right;">
+      <input name="search" value="<%= req.query.search %>" style="display: inline; width: 200px;">
+      <input type="submit" value="Найти" style="display: inline;">
+  </form>
+  <h1>Запланированные дела</h1>
+  <% for (let t of todos) { %>
+  <article class="card">
+      <header>
+          <% if(t.done) { %>
+          <h2><del><a href="/<%= t._id %>/">
+                    <%= t.title %></a></del></h2>
+          <% } else { %>
+          <h2><a href="/<%= t._id %>/"><%= t.title %></a></h2>
+          <% } %>
+      </header>
+      <footer>
+          <% if (t.desc) { %>
+          <p><%= t.desc %></p>
+          <% } %>
+          <p><%= (new Date(t.createdAt)).toLocaleString() %></p>
+          <div style="text-align: right;">
+              <% if(!t.done) { %>
+              <form action="/<%= t._id %>?_method=PUT"
+                    method="post" style="display: inline;">
+                  <input type="submit" class="success"
+                          value="Сделано!">
+              </form>
+              <% } %>
+              <form action="/<%= t._id %>?_method=DELETE"
+                    method="post" style="display: inline;">
+                  <input type="submit" class="warning"
+                          value="Удалить">
+              </form>
+          </div>
+      </footer>
+  </article>
+  <% } %>
 <%- include('includes/footer.ejs') %>
