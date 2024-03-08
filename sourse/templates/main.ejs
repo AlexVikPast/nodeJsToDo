@@ -21,16 +21,16 @@
           <p><%= (new Date(t.createdAt)).toLocaleString() %></p>
           <div style="text-align: right;">
               <% if(!t.done) { %>
-              <form action="/<%= t._id %>?_method=PUT"
-                    method="post" style="display: inline;">
-                  <input type="submit" class="success"
-                          value="Сделано!">
+              <form action="/<%= t._id %>?_method=PUT" method="post" style="display: inline;">
+                <input type="submit" class="success" value="Сделано!">
               </form>
+              <% } else { %>
+                <form action="/<%= t._id %>?_method=PUT" method="post" style="display: inline;">
+                  <input type="submit" class="success" value="Не сделано!">
+                </form>
               <% } %>
-              <form action="/<%= t._id %>?_method=DELETE"
-                    method="post" style="display: inline;">
-                  <input type="submit" class="warning"
-                          value="Удалить">
+              <form action="/<%= t._id %>?_method=DELETE" method="post" style="display: inline;">
+                  <input type="submit" class="warning" value="Удалить">
               </form>
           </div>
       </footer>

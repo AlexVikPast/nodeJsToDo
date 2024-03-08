@@ -1,4 +1,4 @@
-import { getList, getItem, addItem, setDoneItem, deleteItem } from "../models/todos.js"; 
+import { getList, getItem, addItem, setDoneItem, deleteItem, setNotDoneItem } from "../models/todos.js"; 
 
 export function mainPage(req, res) {
 
@@ -69,6 +69,13 @@ export function setDone(req, res) {
 
 export function remove(req, res) {
   if (deleteItem(req.params.id))
+    res.redirect('/')
+  else
+    errorPage(req, res);
+}
+
+export function setNotDone(req, res) {
+  if (setNotDoneItem(req.params.id))
     res.redirect('/')
   else
     errorPage(req, res);

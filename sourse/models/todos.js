@@ -26,7 +26,7 @@ export function setDoneItem(id) {
   console.log(index);
 
   if (index > -1) {
-    todos[index].done = true;
+    todos[index].done = !todos[index].done;
     saveDatabase();
     return true;
   } else 
@@ -41,4 +41,17 @@ export function deleteItem(id) {
     return true;
   } else
     return false;
+}
+
+export function setNotDoneItem(id) {
+  const index = getItemIndex(id);
+
+  console.log(index);
+
+  if (index > -1) {
+    todos[index].done = false;
+    saveDatabase();
+    return true;
+  } else 
+  return false;
 }
