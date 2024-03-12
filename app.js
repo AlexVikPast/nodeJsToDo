@@ -18,7 +18,6 @@ app.set('views', './sourse/templates');
 
 app.locals.appTitle = 'Express';
 
-
 app.listen(port, () => {
   console.log(`http://127.0.0.1:${port}/`)
 });

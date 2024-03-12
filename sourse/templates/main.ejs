@@ -1,39 +1,39 @@
 <%- include('includes/header.ejs') %>
-  <form method="get" style="text-align: right;">
-      <input name="search" value="<%= req.query.search %>" style="display: inline; width: 200px;">
-      <input type="submit" value="Найти" style="display: inline;">
+  <form method="get" class="horizontal">
+      <input name="search" value="<%= req.query.search %>">
+      <input type="submit" value="Найти">
   </form>
-  <h1>Запланированные дела</h1>
+  <h1 class="heading">Запланированные дела</h1>
   <% for (let t of todos) { %>
   <article class="card">
-      <header>
-          <% if(t.done) { %>
-          <h2><del><a href="/<%= t._id %>/">
-                    <%= t.title %></a></del></h2>
-          <% } else { %>
-          <h2><a href="/<%= t._id %>/"><%= t.title %></a></h2>
-          <% } %>
-      </header>
-      <footer>
-          <% if (t.desc) { %>
-          <p><%= t.desc %></p>
-          <% } %>
-          <p><%= (new Date(t.createdAt)).toLocaleString() %></p>
-          <div style="text-align: right;">
-              <% if(!t.done) { %>
-              <form action="/<%= t._id %>?_method=PUT" method="post" style="display: inline;">
-                <input type="submit" class="success" value="Сделано!">
-              </form>
-              <% } else { %>
-                <form action="/<%= t._id %>?_method=PUT" method="post" style="display: inline;">
-                  <input type="submit" class="success" value="Не сделано!">
-                </form>
-              <% } %>
-              <form action="/<%= t._id %>?_method=DELETE" method="post" style="display: inline;">
-                  <input type="submit" class="warning" value="Удалить">
-              </form>
-          </div>
-      </footer>
+    <header>
+      <% if(t.done) { %>
+      <h2><del><a href="/<%= t._id %>/">
+                <%= t.title %></a></del></h2>
+      <% } else { %>
+      <h2><a href="/<%= t._id %>/"><%= t.title %></a></h2>
+      <% } %>
+    </header>
+    <footer>
+      <% if (t.desc) { %>
+      <p><%= t.desc %></p>
+      <% } %>
+      <p><%= (new Date(t.createdAt)).toLocaleString() %></p>
+      <div class="horizontal">
+
+        <form action="/<%= t._id %>?_method=PUT" method="post">
+        <% if(!t.done) { %>
+          <input type="submit" class="success" value="Сделано!">
+        <% } else { %>
+            <input type="submit" class="success" value="Не сделано!">
+        <% } %>
+        </form>
+
+        <form action="/<%= t._id %>?_method=DELETE" method="post">
+          <input type="submit" class="warning" value="Удалить">
+        </form>
+      </div>
+    </footer>
   </article>
   <% } %>
 <%- include('includes/footer.ejs') %>

@@ -42,16 +42,3 @@ export function deleteItem(id) {
   } else
     return false;
 }
-
-export function setNotDoneItem(id) {
-  const index = getItemIndex(id);
-
-  console.log(index);
-
-  if (index > -1) {
-    todos[index].done = false;
-    saveDatabase();
-    return true;
-  } else 
-  return false;
-}

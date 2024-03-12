@@ -1,4 +1,5 @@
-import { getList, getItem, addItem, setDoneItem, deleteItem, setNotDoneItem } from "../models/todos.js"; 
+import { getList, getItem, addItem, setDoneItem, deleteItem } from "../models/todos.js"; 
+import createError from 'http-errors';
 
 export function mainPage(req, res) {
 
@@ -18,7 +19,6 @@ export function mainPage(req, res) {
   }
 
   res.render('main', {
-      req: req,
       todos: list,
       title: "Главная"
     }
@@ -28,8 +28,7 @@ export function mainPage(req, res) {
 export function detailPage(req, res) {
   const t = getItem(req.params.id);
   if (!t) {
-      errorPage(req, res);
-      return;
+    throw createError(404, 'Запрошенное дело не существует!');
   }
 
   res.render('detail', {
@@ -38,18 +37,11 @@ export function detailPage(req, res) {
   });
 }
 
-function errorPage(req, res) {
-  res.render('404', {
-    title: "Ошибка"
-  });
-}
-
 export function addPage(req, res) {
   res.render('add', { title: 'Добавление дела' });
 }
 
 export function add(req, res) {
-
   const todo = {
     title: req.body.title,
     desc: req.body.desc || '',
@@ -63,7 +55,7 @@ export function setDone(req, res) {
   if (setDoneItem(req.params.id))
     res.redirect('/')
   else
-    errorPage(req, res);
+    throw createError(404, 'Запрошенное дело не существует!');
 }
 
 
@@ -71,12 +63,5 @@ export function remove(req, res) {
   if (deleteItem(req.params.id))
     res.redirect('/')
   else
-    errorPage(req, res);
-}
-
-export function setNotDone(req, res) {
-  if (setNotDoneItem(req.params.id))
-    res.redirect('/')
-  else
-    errorPage(req, res);
+    throw createError(404, 'Запрошенное дело не существует!');
 }
