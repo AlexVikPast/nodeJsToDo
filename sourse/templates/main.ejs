@@ -3,6 +3,17 @@
       <input name="search" value="<%= req.query.search %>">
       <input type="submit" value="Найти">
   </form>
+
+  <form action="/setorder" method="post" class="horizontal">
+    <% if (req.cookies.doneAtLast == '1') { %>
+      <input type="hidden" name="done_at_last" value="0">
+      <input type="submit" value="Вывести все дела вместе">
+    <% } else { %>
+      <input type="hidden" name="done_at_last" value="1">
+      <input type="submit" value="Вывести все дела в конце">
+    <% } %>
+  </form>
+
   <h1 class="heading">Запланированные дела</h1>
   <% for (let t of todos) { %>
   <article class="card">

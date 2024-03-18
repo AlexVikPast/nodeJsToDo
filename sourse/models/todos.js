@@ -22,9 +22,6 @@ function getItemIndex(id) {
 
 export function setDoneItem(id) {
   const index = getItemIndex(id);
-
-  console.log(index);
-
   if (index > -1) {
     todos[index].done = !todos[index].done;
     saveDatabase();
