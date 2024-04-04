@@ -20,3 +20,42 @@ export async function register(req, res) {
   addUser(user);
   res.redirect('/');
 }
+
+export function loginPage(req, res) {
+  res.render('login', { title: 'Вход' });
+}
+
+export function login(req, res, next) {
+  req.session.regenerate((err) => {
+      if (err) {
+          next(err);
+      } else {
+          req.session.user = {
+              id: req.__user._id,
+              name: req.__user.username
+          };
+          req.session.save((err) => {
+              
+              if (err)
+                  next(err);
+              else
+                  res.redirect('/');
+          });
+      }
+  });
+}
+
+export function logout(req, res, next) {
+  delete req.session.user;
+  req.session.save((err) => {
+      if (err)
+          next(err);
+      else
+          req.session.regenerate((err) => {
+              if (err)
+                  next(err);
+              else
+                  res.redirect('/login');
+          })
+  })
+}
