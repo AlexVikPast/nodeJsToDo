@@ -1,8 +1,13 @@
-import { Router, urlencoded, static as staticMiddleware } from "express";
+// import { Router, urlencoded, static as staticMiddleware } from "express";
+
+import express from "express";
+const { Router, urlencoded, static: staticMiddleware } = express;
+
 import methodOverride from "method-override";
 import { mainPage, detailPage, addPage, add, setDone, remove, setOrder, addendumWrapper } from "./contollers/todos.js"; 
-import { requestToContext, handlerErrors, extendFlashAPI, getErrors } from "./middleware.js";
-import { todoV } from "./validators.js"; 
+import { registrPage, register } from "./contollers/users.js";
+import { requestToContext, handlerErrors, extendFlashAPI, getErrors, loadCurrentUser, isGuest } from "./middleware.js";
+import { todoV, registerV } from "./validators.js"; 
 import { mainErrorHandler, error500Handler } from "./error-handlers.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
@@ -35,11 +40,16 @@ router.use(session({
 }));
 router.use(flash({ sessionKeyName: 'flash-message' }));
 router.use(extendFlashAPI);
+router.use(loadCurrentUser);
 
 router.use(urlencoded({ extended: true, limit: 1 }));
 router.use(methodOverride('_method'));
 
 router.use(requestToContext);
+
+router.get('/register', isGuest, getErrors, registrPage);
+router.post('/register', isGuest, registerV, handlerErrors, register);
+
 router.use(staticMiddleware('public'));
 
 router.get('/add', getErrors, addPage);
