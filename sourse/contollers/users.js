@@ -17,7 +17,7 @@ export async function register(req, res) {
     salt: salt
   };
 
-  addUser(user);
+  await addUser(user);
   res.redirect('/');
 }
 

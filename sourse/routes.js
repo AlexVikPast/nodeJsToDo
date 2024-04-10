@@ -4,7 +4,7 @@ import express from "express";
 const { Router, urlencoded, static: staticMiddleware } = express;
 
 import methodOverride from "method-override";
-import { mainPage, detailPage, addPage, add, setDone, remove, setOrder, addendumWrapper } from "./contollers/todos.js"; 
+import { mainPage, detailPage, addPage, add, setDone, remove, setOrder, addendumWrapper, mostActiveUsers } from "./contollers/todos.js"; 
 import { registrPage, register, loginPage, login, logout } from "./contollers/users.js";
 import { requestToContext, handlerErrors, extendFlashAPI, getErrors, loadCurrentUser, isGuest, isLoggedIn } from "./middleware.js";
 import { todoV, registerV, loginV } from "./validators.js"; 
@@ -59,6 +59,7 @@ router.use(staticMiddleware('public'));
 // Проверка вошел ли пользователь в систему
 router.use(isLoggedIn);
 router.post('/logout', logout);
+router.get('/mostactive', mostActiveUsers);
 
 router.get('/add', getErrors, addPage);
 router.post('/add', addendumWrapper, todoV, handlerErrors, add)
